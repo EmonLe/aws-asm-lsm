@@ -85,7 +85,7 @@ def AddEmp():
         cursor.close()
         
 
-@app.route("/getEmp", methods=['GET', 'POST'])
+@app.route("/getEmp", methods=['GET'])
 def getEmp():
     emp_id = request.form['emp_id']
 
