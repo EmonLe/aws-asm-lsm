@@ -99,23 +99,29 @@ def AddEmp():
 def get_emp_page():
     return render_template('GetEmpOutput.html')
 
-
 @app.route('/fetchdata', methods=['POST'])
 def fetch_data():
     emp_id = request.form['emp_id']
 
-    # Get the object from the S3 bucket
+    # Query the employee data from the HeidiSQL database
+    conn = pymysql.connect(host=heidi_host, port=heidi_port, user=heidi_user, password=heidi_password, database=heidi_db)
+    cur = conn.cursor()
+    cur.execute(f"SELECT empid, first_name, last_name, pri_skill, location FROM employees WHERE empid = '{emp_id}'")
+    row = cur.fetchone()
+    if row is None:
+        error_msg = f'Employee with ID {emp_id} not found in database.'
+        return render_template('GetEmpOutput.html', error_msg=error_msg)
+
+    empid, first_name, last_name, pri_skill, location = row
+
+    # Get the employee image file name from S3
     object_key = f'employees/{emp_id}.json'
     try:
         response = s3.get_object(Bucket=bucket_name, Key=object_key)
+        employee_data = json.loads(response['Body'].read().decode('utf-8'))
+        emp_image_file_name_in_s3 = employee_data.get('emp_image_file_name_in_s3')
     except s3.exceptions.NoSuchKey:
-        return f'Employee with ID {emp_id} not found in database.'
-
-    # Parse the employee data from JSON
-    employee_data = json.loads(response['Body'].read().decode('utf-8'))
-
-    # Get the employee image file name from S3
-    emp_image_file_name_in_s3 = employee_data.get('emp_image_file_name_in_s3')
+        emp_image_file_name_in_s3 = ''
 
     # Pass the employee data to the GetEmpOutput template
     return render_template('GetEmpOutput.html',
@@ -125,6 +131,8 @@ def fetch_data():
                            skill=employee_data['pri_skill'],
                            location=employee_data['location'],
                            image_url=employee_data['emp_image_file_name_in_s3'])
+
+
   
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80, debug=True)
