@@ -81,6 +81,45 @@ def AddEmp():
     return render_template('AddEmpOutput.html', name=emp_name)
 
 
+@app.route("/getemp", methods=['GET', 'POST'])
+def GetEmp():
+    return render_template('GetEmp.html')
+
+@app.route("/getempoutput", methods=['GET', 'POST'])
+def GetEmpOutput():
+    emp_id = request.form['emp_id']
+
+    select_sql = "SELECT * FROM employee WHERE emp_id = %s"
+    cursor = db_conn.cursor()
+
+    try:
+        cursor.execute(select_sql, (emp_id,))
+        row = cursor.fetchone()
+
+        if row is not None:
+            emp_id, first_name, last_name, pri_skill, location = row
+            emp_name = "" + first_name + " " + last_name
+            emp_image_file_name_in_s3 = "emp-id-" + str(emp_id) + "_image_file"
+            s3 = boto3.resource('s3')
+
+            try:
+                object_url = s3.Object(custombucket, emp_image_file_name_in_s3).get().get('Body').get('url')
+
+            except Exception as e:
+                object_url = ""
+
+            output = {'emp_id': emp_id, 'emp_name': emp_name, 'pri_skill': pri_skill, 'location': location, 'emp_image_file_name_in_s3': emp_image_file_name_in_s3, 'object_url': object_url}
+
+        else:
+            output = {'emp_id': '', 'emp_name': '', 'pri_skill': '', 'location': '', 'emp_image_file_name_in_s3': '', 'object_url': ''}
+
+    finally:
+        cursor.close()
+
+    return render_template('GetEmpOutput.html', output=output)
+
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80, debug=True)
 
