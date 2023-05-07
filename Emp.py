@@ -20,11 +20,9 @@ db_conn = connections.Connection(
 output = {}
 table = 'employee'
 
-
 @app.route("/", methods=['GET', 'POST'])
 def home():
-    return render_template('AddEmp.html')
-
+    return render_template('frontpage.html')
 
 @app.route("/about", methods=['POST'])
 def about():
@@ -81,32 +79,6 @@ def AddEmp():
     return render_template('AddEmpOutput.html', name=emp_name)
 
 
-@app.route("/getemp", methods=['GET'])
-def GetEmp():
-    emp_id = request.args.get('emp_id')
-    select_sql = "SELECT * FROM employee WHERE emp_id=%s"
-    cursor = db_conn.cursor()
-
-    try:
-        cursor.execute(select_sql, (emp_id,))
-        result = cursor.fetchone()
-        if result:
-            emp_data = {
-                'emp_id': result[0],
-                'first_name': result[1],
-                'last_name': result[2],
-                'pri_skill': result[3],
-                'location': result[4],
-                'image_url': f"https://{bucket}.s3.{region}.amazonaws.com/emp-id-{emp_id}_image_file"
-            }
-            return render_template('GetEmpOutput.html', emp_data=emp_data)
-        else:
-            return "Employee not found"
-    except Exception as e:
-        return str(e)
-    finally:
-        cursor.close()
-
-
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80, debug=True)
+
