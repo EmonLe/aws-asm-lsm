@@ -86,7 +86,7 @@ def AddEmp():
         
 
 @app.route("/getEmp", methods=['GET'])
-def getEmp():
+def getEmpId():
     emp_id = request.form['emp_id']
 
     select_sql = "SELECT * FROM employee WHERE emp_id = %s"
