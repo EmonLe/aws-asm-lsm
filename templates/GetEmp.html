@@ -55,9 +55,14 @@
 	<center>
 		<font color="black" size="5" style="font-family: avenir">
 			<h1>Employee Information</h1>
+			<form action="/fetchdata" autocomplete="on" method="POST">
+				<h2>Enter Employee ID</h2>
+				Employee ID:<br>
+				<input type="number" name="emp_id" autofocus size="40"><br><br>
 			<div class="button-row">
   			<button class="button" onclick="location.href='/GetEmpOutput.html'">Search Employee Information</button>
 			</div>
+			</form>
 		</font>
 	</center>
 </body>
