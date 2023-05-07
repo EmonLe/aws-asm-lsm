@@ -24,8 +24,9 @@ table = 'employee'
 def home():
     return render_template('frontpage.html')
 
-@app.route("/add-employee")
-def add_employee():
+
+@app.route('/AddEmp.html')
+def add_emp_page():
     return render_template('AddEmp.html')
 
 
