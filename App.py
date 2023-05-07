@@ -84,38 +84,30 @@ def AddEmp():
         cursor.close()
         
 
-@app.route("/getEmp", methods=['GET'])
-def getEmpId():
+
+@app.route('/fetchdata', methods=['POST'])
+def fetch_data():
     emp_id = request.form['emp_id']
 
-    select_sql = "SELECT * FROM employee WHERE emp_id = %s"
-    cursor = db_conn.cursor()
-
+    # Get the object from the S3 bucket
+    object_key = f'employees/{emp_id}.json'
     try:
-        cursor.execute(select_sql, (emp_id,))
-        result = cursor.fetchone()
+        response = s3.get_object(Bucket=bucket_name, Key=object_key)
+    except s3.exceptions.NoSuchKey:
+        return f'Employee with ID {emp_id} not found in database.'
 
-        if not result:
-            return "Employee not found."
+    # Parse the employee data from JSON
+    employee_data = json.loads(response['Body'].read().decode('utf-8'))
 
-        emp_id = result[0]
-        first_name = result[1]
-        last_name = result[2]
-        pri_skill = result[3]
-        location = result[4]
-        emp_name = first_name + " " + last_name
+    # Pass the employee data to the GetEmpOutput template
+    return render_template('GetEmpOutput.html',
+                           first_name=employee_data['first_name'],
+                           last_name=employee_data['last_name'],
+                           pri_skill=employee_data['pri_skill'],
+                           location=employee_data['location'],
+                           emp_image_file=employee_data['emp_image_file'])
 
-    except Exception as e:
-        return str(e)
-
-    finally:
-        cursor.close()
-
-    return render_template('GetEmpOutput.html', emp_id=emp_id, first_name=first_name, last_name=last_name, pri_skill=pri_skill, location=location, emp_name=emp_name)
-
-
-
-
+  
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80, debug=True)
 
