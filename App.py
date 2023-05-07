@@ -3,6 +3,8 @@ from pymysql import connections
 import os
 import boto3
 from config import *
+import pymysql.cursors
+from jinja2 import Environment, FileSystemLoader
 
 app = Flask(__name__)
 
@@ -19,6 +21,12 @@ db_conn = connections.Connection(
 )
 output = {}
 table = 'employee'
+
+# Create connection to S3 bucket
+s3 = boto3.resource('s3')
+bucket_name = 'leongshengmou-employee'
+bucket = s3.Bucket(bucket_name)
+
 
 @app.route("/", methods=['GET', 'POST'])
 def home():
@@ -91,6 +99,7 @@ def AddEmp():
 def get_emp_page():
     return render_template('GetEmpOutput.html')
 
+
 @app.route('/fetchdata', methods=['POST'])
 def fetch_data():
     emp_id = request.form['emp_id']
@@ -105,13 +114,17 @@ def fetch_data():
     # Parse the employee data from JSON
     employee_data = json.loads(response['Body'].read().decode('utf-8'))
 
+    # Get the employee image file name from S3
+    emp_image_file_name_in_s3 = employee_data.get('emp_image_file_name_in_s3')
+
     # Pass the employee data to the GetEmpOutput template
     return render_template('GetEmpOutput.html',
-                           first_name=employee_data['first_name'],
-                           last_name=employee_data['last_name'],
-                           pri_skill=employee_data['pri_skill'],
+                           id=emp_id,
+                           fname=employee_data['first_name'],
+                           lname=employee_data['last_name'],
+                           interest=employee_data['pri_skill'],
                            location=employee_data['location'],
-                           emp_image_file=employee_data['emp_image_file'])
+                           image_url=f'https://{bucket_name}.s3.amazonaws.com/{emp_image_file_name_in_s3}')
 
   
 if __name__ == '__main__':
