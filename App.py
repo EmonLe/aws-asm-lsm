@@ -85,9 +85,36 @@ def AddEmp():
         cursor.close()
         
 
+@app.route("/getEmp", methods=['GET', 'POST'])
+def getEmp():
+    emp_id = request.form['emp_id']
 
-    print("all modification done...")
-    return render_template('AddEmpOutput.html', name=emp_name)
+    select_sql = "SELECT * FROM employee WHERE emp_id = %s"
+    cursor = db_conn.cursor()
+
+    try:
+        cursor.execute(select_sql, (emp_id,))
+        result = cursor.fetchone()
+
+        if not result:
+            return "Employee not found."
+
+        emp_id = result[0]
+        first_name = result[1]
+        last_name = result[2]
+        pri_skill = result[3]
+        location = result[4]
+        emp_name = first_name + " " + last_name
+
+    except Exception as e:
+        return str(e)
+
+    finally:
+        cursor.close()
+
+    return render_template('GetEmpOutput.html', emp_id=emp_id, first_name=first_name, last_name=last_name, pri_skill=pri_skill, location=location, emp_name=emp_name)
+
+
 
 
 if __name__ == '__main__':
