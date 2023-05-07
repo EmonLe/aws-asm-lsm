@@ -29,6 +29,9 @@ def home():
 def add_emp_page():
     return render_template('AddEmp.html')
 
+@app.route('/GetEmp.html')
+def add_emp_page():
+    return render_template('/GetEmp.html')
 
 @app.route("/about", methods=['POST'])
 def about():
