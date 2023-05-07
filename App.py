@@ -119,13 +119,13 @@ def fetch_data():
 
     # Pass the employee data to the GetEmpOutput template
     return render_template('GetEmpOutput.html',
-                           id=emp_id,
+                           id=employee_data['empid'],
                            fname=employee_data['first_name'],
                            lname=employee_data['last_name'],
-                           interest=employee_data['pri_skill'],
+                           skill=employee_data['pri_skill'],
                            location=employee_data['location'],
-                           image_url=f'https://{bucket_name}.s3.amazonaws.com/{emp_image_file_name_in_s3}')
-
+                           image_url=employee_data['emp_image_file_name_in_s3'])
+    print("all done...")
   
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80, debug=True)
