@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 from pymysql import connections
 import os
 import boto3
@@ -15,19 +15,17 @@ db_conn = connections.Connection(
     user=customuser,
     password=custompass,
     db=customdb
-
 )
-output = {}
+
 table = 'employee'
 
-@app.route("/", methods=['GET', 'POST'])
+@app.route("/")
 def home():
     return render_template('frontpage.html')
 
-@app.route("/about", methods=['POST'])
-def about():
-    return render_template('www.intellipaat.com')
-
+@app.route("/add-employee")
+def add_employee():
+    return render_template('AddEmp.html')
 
 @app.route("/addemp", methods=['POST'])
 def AddEmp():
@@ -45,7 +43,6 @@ def AddEmp():
         return "Please select a file"
 
     try:
-
         cursor.execute(insert_sql, (emp_id, first_name, last_name, pri_skill, location))
         db_conn.commit()
         emp_name = "" + first_name + " " + last_name
@@ -81,4 +78,3 @@ def AddEmp():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80, debug=True)
-
