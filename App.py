@@ -86,6 +86,11 @@ def AddEmp():
     print("all modification done...")
     return render_template('AddEmpOutput.html', name=emp_name)
 
+
+@app.route('/GetEmpOutput.html')
+def get_emp_page():
+    return render_template('GetEmpOutput.html')
+
 @app.route('/fetchdata', methods=['POST'])
 def fetch_data():
     emp_id = request.form['emp_id']
