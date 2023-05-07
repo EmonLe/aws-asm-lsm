@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Add Employee Information</title>
+	<style>
+		body {
+			background: url("https://marketplace.canva.com/EAD2962NKnQ/2/0/1600w/canva-rainbow-gradient-pink-and-purple-virtual-background-_Tcjok-d9b4.jpg") no-repeat center center fixed;
+			background-size: cover;
+			font-family: Arial, sans-serif;
+		}
+
+		h1 {
+			color: #ffffff;
+			font-size: 36px;
+			margin-top: 50px;
+			text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+		}
+
+		form {
+			margin-top: 50px;
+			max-width: 600px;
+			padding: 20px;
+			background-color: #ffffff;
+			border-radius: 10px;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+		}
+
+		input[type="number"],
+		input[type="text"],
+		input[type="file"] {
+			padding: 10px;
+			font-size: 18px;
+			border-radius: 5px;
+			border: none;
+			box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+			width: 100%;
+			margin-bottom: 10px;
+			background-color: #f0f0f0;
+		}
+
+		button[type="submit"] {
+			background-color: #ff4136;
+			color: #ffffff;
+			font-size: 20px;
+			font-weight: bold;
+			padding: 10px;
+			border-radius: 5px;
+			border: none;
+			box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+			cursor: pointer;
+			margin-top: 20px;
+			width: 100%;
+			transition: background-color 0.3s ease;
+		}
+
+		button[type="submit"]:hover {
+			background-color: #ff851b;
+			box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
+		}
+
+		a {
+			color: #ffffff;
+			font-size: 16px;
+			text-decoration: none;
+			margin-top: 20px;
+			display: inline-block;
+			text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+			transition: color 0.3s ease;
+		}
+
+		a:hover {
+			color: #ff851b;
+			text-decoration: underline;
+		}
+		
+		label {
+			display: block;
+			font-size: 18px;
+			font-weight: bold;
+			margin-bottom: 5px;
+			text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+		}
+
+	</style>
+</head>
+
+<body>
+	<center>
+		<h1>Employee Database</h1>
+
+<form action="/addemp" autocomplete="on" method="POST" enctype="multipart/form-data">
+    <button type="submit" formaction="/getemp">GET EMPLOYEE INFORMATION</button>
+    <label for="emp_id">Employee ID:</label>
+    <input type="number" id="emp_id" name="emp_id" placeholder="Employee ID" autofocus required>
+    <label for="emp_id">First Name:</label>
+    <input type="text" id="first_name" name="first_name" placeholder="First Name" required>
+    <label for="emp_id">Last Name:</label>
+    <input type="text" id="last_name" name="last_name" placeholder="Last Name" required>
+    <label for="emp_id">Primary skill:</label>
+    <input type="text" id="pri_skill" name="pri_skill" placeholder="Primary Skills" required>
+    <label for="emp_id">Location:</label>
+    <input type="text" id="location" name="location" placeholder="Location" required>
+    <label for="emp_image_file">Profile Image:</label>
+    <input type="file" id="emp_image_file" name="emp_image_file" accept="image/*">
+    <button type="submit">UPDATE DATABASE</button>
+</form>
+		<a href="/about">About Us</a>
+	</center>
+</body>
+</html>

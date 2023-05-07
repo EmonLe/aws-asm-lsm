@@ -1,0 +1,67 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Employee Information</title>
+	<style>
+		body {
+			background: url("https://marketplace.canva.com/EAD2962NKnQ/2/0/1600w/canva-rainbow-gradient-pink-and-purple-virtual-background-_Tcjok-d9b4.jpg") no-repeat center center fixed;
+			background-size: cover;
+			font-family: Arial, sans-serif;
+		}
+		h1 {
+			text-align: center;
+			color: #ffffff;
+			font-size: 36px;
+			margin-top: 50px;
+			text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+		}
+		form div {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			margin-top: 20px;
+			background-image: url('https://t4.ftcdn.net/jpg/00/81/35/31/360_F_81353111_RHDo5ABCfUCnQpiSqJmAI6bzrIiF11rI.jpg');
+			background-size: cover;
+			padding: 20px;
+			border-radius: 10px;
+			box-shadow: 0px 0px 10px grey;
+		}
+		label {
+			font-size: 16px;
+			font-weight: bold;
+			margin-top: 10px;
+			margin-bottom: 5px;
+		}
+		button {
+			background-color: dodgerblue;
+			color: white;
+			height: 45px;
+			width: 200px;
+			font-style: oblique;
+			border: none;
+			border-radius: 5px;
+			margin-top: 20px;
+			box-shadow: 0px 0px 5px grey;
+		}
+		button:hover {
+			background-color: #cc99ff;
+			cursor: pointer;
+		}
+	</style>
+</head>
+<body>
+	<h1>Employee Information</h1>
+	<form>
+		<div>
+			<label>Employee ID:</label> {{ id }} <br>
+			<label>First Name:</label> {{ fname }} <br>
+			<label>Last Name:</label> {{ lname }} <br>
+			<label>Primary Interest:</label> {{ interest }} <br>
+			<label>Location:</label> {{ location }} <br>
+			<label>Image URL:</label> {{ image_url }} <br>
+			<button type="submit" formaction="http://3.134.115.108:80/getemp">RESET</button>
+		</div>
+	</form>
+</body>
+</html>
