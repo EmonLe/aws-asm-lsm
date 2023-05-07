@@ -125,7 +125,6 @@ def fetch_data():
                            skill=employee_data['pri_skill'],
                            location=employee_data['location'],
                            image_url=employee_data['emp_image_file_name_in_s3'])
-    print("all done...")
   
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80, debug=True)
