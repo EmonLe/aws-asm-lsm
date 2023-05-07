@@ -52,7 +52,7 @@
 	<h1>SAVE SUCCESSFUL</h1>
 	<h2>Following Employee details has been added to the database</h2>
 	<h2 style="color: #e74c3c;">{{ name }}</h2>
-	<form action="http://3.134.115.108:80/" autocomplete="on" method="GET">
+	<form action="{{ url_for('GetEmp.html') }}" method="GET">
 		<button type="submit">GO BACK</button>
 	</form>
 </body>
