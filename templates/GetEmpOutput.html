@@ -52,9 +52,20 @@
 <body>
 	<h1>Employee Information</h1>
 	<form action="/fetchdata" autocomplete="on" method="GET">
-        </form>
-        <form action="/" autocomplete="on" method="GET">
+
+    <div>
+        <label>Employee ID:</label> {{ id }} <br>
+        <label>First Name:</label> {{ fname }} <br>
+        <label>Last Name:</label> {{ lname }} <br>
+	<label>Gender:</label> {{ gender }} <br>
+        <label>Primary Skill:</label> {{ skill }} <br>
+        <label>Location:</label> {{ location }} <br>
+        <label>Image URL:</label> {{ image_url }} <br>
+    </div>
+	
+    <form action="/" autocomplete="on" method="GET">
         <button type="submit" style="background: #2c3e50; height: 45px; width: 200px; color:white; font-style:oblique;">GO Front Page</button><br><br>
+    </form>
 	</form>
 </body>
 </html>
