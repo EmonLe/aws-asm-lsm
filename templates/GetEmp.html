@@ -48,22 +48,46 @@
 			background-color: #66b3ff;
 			color: #ffffff;
 		}
-
+        .output-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+        .output-container label {
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .result-container {
+            margin-top: 10px;
+        }
 	</style>
 </head>
 <body>
 	<center>
 		<font color="black" size="5" style="font-family: avenir">
 			<h1>Employee Information</h1>
-	<form action="/fetchdata" method="POST">
-		<label for="emp_id">Employee ID:</label>
-		<input type="number" id="emp_id" name="emp_id" required>
-		<br><br>
-	</form>
-	<div class="button-row">
-		<button class="button" onclick="location.href='/GetEmpOutput.html'">Search Employee Information</button>
-	</div>
+			<form action="/fetchdata" method="POST">
+				<label for="emp_id">Employee ID:</label>
+				<input type="number" id="emp_id" name="emp_id" required>
+				<br><br>
+			</form>
+			<div class="button-row">
+				<button class="button" onclick="searchEmployee()">Search Employee Information</button>
+			</div>
+            <div class="output-container">
+                <label>Employee Information:</label>
+                <div class="result-container">
+                    <label id="emp_id_result"></label>
+                    <label id="first_name_result"></label>
+                    <label id="last_name_result"></label>
+                    <label id="pri_skill_result"></label>
+                    <label id="location_result"></label>
+                    <label id="gender_result"></label>
+                </div>
+            </div>
 		</font>
 	</center>
-</body>
+	</body>
 </html>
