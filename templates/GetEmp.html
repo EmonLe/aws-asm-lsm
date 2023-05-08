@@ -73,21 +73,10 @@
 				<input type="number" id="emp_id" name="emp_id" required>
 				<br><br>
 			</form>
-			<div class="button-row">
-				<button class="button" onclick="searchEmployee()">Search Employee Information</button>
-			</div>
-            <div class="output-container">
-                <label>Employee Information:</label>
-                <div class="result-container">
-                    <label id="emp_id_result"></label>
-                    <label id="first_name_result"></label>
-                    <label id="last_name_result"></label>
-		    <label id="gender_result"></label>
-                    <label id="pri_skill_result"></label>
-                    <label id="location_result"></label>
-                    <label id="gender_result"></label>
-                </div>
-            </div>
+			
+			<form action="/GetEmpOutput.html" autocomplete="on" method="GET">
+    			<button type="Search Employee" style="background: green; height: 45px; width: 200px; color:white; font:oblique;">GO BACK</button><br><br>
+			</form>
 		</font>
 	</center>
 	</body>
