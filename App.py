@@ -50,6 +50,7 @@ def AddEmp():
     emp_id = request.form['emp_id']
     first_name = request.form['first_name']
     last_name = request.form['last_name']
+    gender = request.form['gender']
     pri_skill = request.form['pri_skill']
     location = request.form['location']
     emp_image_file = request.files['emp_image_file']
@@ -62,7 +63,7 @@ def AddEmp():
 
     try:
 
-        cursor.execute(insert_sql, (emp_id, first_name, last_name, pri_skill, location))
+        cursor.execute(insert_sql, (emp_id, first_name, last_name, gender, pri_skill, location))
         db_conn.commit()
         emp_name = "" + first_name + " " + last_name
         # Uplaod image file in S3 #
@@ -106,7 +107,7 @@ def fetch_data():
     # Query the employee data from the HeidiSQL database
     conn = pymysql.connect(host=heidi_host, port=heidi_port, user=heidi_user, password=heidi_password, database=heidi_db)
     cur = conn.cursor()
-    cur.execute(f"SELECT empid, first_name, last_name, pri_skill, location FROM employees WHERE empid = '{emp_id}'")
+    cur.execute(f"SELECT empid, first_name, last_name, gender, pri_skill, location FROM employees WHERE empid = '{emp_id}'")
     row = cur.fetchone()
     if row is None:
         error_msg = f'Employee with ID {emp_id} not found in database.'
@@ -128,6 +129,7 @@ def fetch_data():
                            id=empid,
                            fname=first_name,
                            lname=last_name,
+                           gender=gender,
                            skill=pri_skill,
                            location=location,
                            image_url=emp_image_file_name_in_s3)
