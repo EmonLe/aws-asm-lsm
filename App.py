@@ -101,36 +101,23 @@ def get_emp_page():
 
 @app.route('/fetchdata', methods=['POST'])
 def fetch_data():
+    # Retrieve emp_id from form
     emp_id = request.form['emp_id']
+    
+    # Query database or API to retrieve employee information using emp_id
+    # Example employee data
+    employee = {
+        'emp_id': emp_id,
+        'first_name': 'John',
+        'last_name': 'Doe',
+        'pri_skill': 'Python',
+        'location': 'New York',
+        'gender': 'Male',
+        'emp_image': 'https://s3.us-west-2.amazonaws.com/example-bucket/employee.jpg'
+    }
 
-    # Query the employee data from the HeidiSQL database
-    conn = pymysql.connect(host=heidi_host, port=heidi_port, user=heidi_user, password=heidi_password, database=heidi_db)
-    cur = conn.cursor()
-    cur.execute(f"SELECT empid, first_name, last_name, pri_skill, location FROM employees WHERE empid = '{emp_id}'")
-    row = cur.fetchone()
-    if row is None:
-        error_msg = f'Employee with ID {emp_id} not found in database.'
-        return render_template('GetEmpOutput.html', error_msg=error_msg)
-
-    empid, first_name, last_name, pri_skill, location = row
-
-    # Get the employee image file name from S3
-    object_key = f'employees/{emp_id}.json'
-    try:
-        response = s3.get_object(Bucket=bucket_name, Key=object_key)
-        employee_data = json.loads(response['Body'].read().decode('utf-8'))
-        emp_image_file_name_in_s3 = employee_data.get('emp_image_file_name_in_s3')
-    except s3.exceptions.NoSuchKey:
-        emp_image_file_name_in_s3 = ''
-
-    # Pass the employee data to the GetEmpOutput template
-    return render_template('GetEmpOutput.html',
-                           id=employee_data['empid'],
-                           fname=employee_data['first_name'],
-                           lname=employee_data['last_name'],
-                           skill=employee_data['pri_skill'],
-                           location=employee_data['location'],
-                           image_url=employee_data['emp_image_file_name_in_s3'])
+    # Render template with employee data
+    return render_template('GetEmp.html', employee=employee)
 
 
   
