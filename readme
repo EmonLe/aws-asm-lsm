@@ -9,7 +9,7 @@ git clone https://github.com/EmonLe/aws-asm-lsm.git
 cd aws-live
 yum install python-pip -y
 pip3 install flask pymysql boto3
-python3 EmpApp.py
+python3 App.py
 
 
 
