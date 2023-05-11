@@ -134,7 +134,25 @@ def fetch_data():
                            location=location,
                            image_url=emp_image_file_name_in_s3)
 
-  
+@app.route('/UpdateEmp.html')
+def getEmp():
+    return render_template('/UpdateEmp.html')
+
+@app.route('/updateemp', methods=['POST'])
+def update_employee():
+    emp_id = request.form['emp_id']
+    first_name = request.form['first_name']
+    last_name = request.form['last_name']
+    gender = request.form['gender']
+    pri_skill = request.form['pri_skill']
+    location = request.form['location']
+    emp_image_file = request.files.get('emp_image_file')
+
+    # Here you can add your code to update the employee information in your database
+    # using the values obtained from the form.
+
+    return "Employee information updated successfully!"
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80, debug=True)
 
