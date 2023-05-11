@@ -121,11 +121,10 @@ def update_employee():
             print(cursor.rowcount, "record(s) affected")
 
             # Upload the employee's profile image to your S3 bucket
-             with open(emp_image_file.filename, 'rb') as f:
-             s3 = boto3.client('s3')
-            bucket_name = 'custombucket'
-            key = 'emp_images/{}.jpg'.format(emp_id)
-            s3.upload_fileobj(f, bucket_name, key)
+s3 = boto3.client('s3')
+bucket_name = 'custombucket'
+key = 'emp_images/emp-id-{}_image_file.jpg'.format(emp_id)
+s3.upload_file(emp_image_file.filename, bucket_name, key)
 
             return "Employee information updated successfully!"
         except Error as e:
