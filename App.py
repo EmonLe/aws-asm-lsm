@@ -28,7 +28,7 @@ bucket_name = 'leongshengmou-employee'
 bucket = s3.Bucket(bucket_name)
 
 @app.route('/UpdateEmp.html')
-def getEmp():
+def updateEmp():
     return render_template('/UpdateEmp.html')
 
 @app.route("/", methods=['GET', 'POST'])
