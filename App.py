@@ -106,7 +106,6 @@ def update_employee():
     gender = request.form['gender']
     pri_skill = request.form['pri_skill']
     location = request.form['location']
-    emp_image_file = request.files.get('emp_image_file')
 
     # Establish a connection to your MySQL database
     conn = create_connection()
@@ -119,12 +118,6 @@ def update_employee():
             cursor.execute(sql, val)
             conn.commit()
             print(cursor.rowcount, "record(s) affected")
-
-            # Upload the employee's profile image to your S3 bucket
-s3 = boto3.client('s3')
-bucket_name = 'custombucket'
-key = 'emp_images/emp-id-{}_image_file.jpg'.format(emp_id)
-s3.upload_file(emp_image_file.filename, bucket_name, key)
 
             return "Employee information updated successfully!"
         except Error as e:
