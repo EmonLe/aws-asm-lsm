@@ -27,6 +27,9 @@ s3 = boto3.resource('s3')
 bucket_name = 'leongshengmou-employee'
 bucket = s3.Bucket(bucket_name)
 
+@app.route('/UpdateEmp.html')
+def getEmp():
+    return render_template('/UpdateEmp.html')
 
 @app.route("/", methods=['GET', 'POST'])
 def home():
@@ -94,6 +97,45 @@ def AddEmp():
         
     print("all modification done...")
     return render_template('AddEmpOutput.html', name=emp_name)
+
+@app.route('/updateemp', methods=['POST'])
+def update_employee():
+    emp_id = request.form['emp_id']
+    first_name = request.form['first_name']
+    last_name = request.form['last_name']
+    gender = request.form['gender']
+    pri_skill = request.form['pri_skill']
+    location = request.form['location']
+    emp_image_file = request.files.get('emp_image_file')
+
+    # Establish a connection to your MySQL database
+    conn = create_connection()
+    if conn is not None:
+        try:
+            # Update the employee information in the database
+            cursor = conn.cursor()
+            sql = "UPDATE employees SET first_name=%s, last_name=%s, gender=%s, pri_skill=%s, location=%s WHERE emp_id=%s"
+            val = (first_name, last_name, gender, pri_skill, location, emp_id)
+            cursor.execute(sql, val)
+            conn.commit()
+            print(cursor.rowcount, "record(s) affected")
+
+            # Upload the employee's profile image to your S3 bucket
+            s3 = boto3.client('s3')
+            bucket_name = 'custombucket'
+            key = 'emp_images/{}.jpg'.format(emp_id)
+            s3.upload_file(emp_image_file.filename, bucket_name, key)
+
+            return "Employee information updated successfully!"
+        except Error as e:
+            print(e)
+            return "An error occurred while updating the employee information"
+        finally:
+            # Close the database connection
+            cursor.close()
+            conn.close()
+    else:
+        return "Could not establish a connection to the database"
 
 
 @app.route('/GetEmpOutput.html')
