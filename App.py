@@ -47,6 +47,10 @@ def getEmp():
 def about():
     return render_template('www.intellipaat.com')
 
+@app.route('/GetEmpOutput.html')
+def get_emp_page():
+    return render_template('GetEmpOutput.html')
+
 
 @app.route("/addemp", methods=['POST'])
 def AddEmp():
@@ -130,10 +134,6 @@ def update_employee():
     else:
         return "Could not establish a connection to the database"
 
-
-@app.route('/GetEmpOutput.html')
-def get_emp_page():
-    return render_template('GetEmpOutput.html')
 
 @app.route('/fetchdata', methods=['POST'])
 def fetch_data():
